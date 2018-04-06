@@ -33,7 +33,7 @@
     "public": false
   },
   "Event": {
-    "dataSource": "db",
+    "dataSource": "localMongo",
     "public": true
   }
 }

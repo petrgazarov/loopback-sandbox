@@ -4,14 +4,15 @@
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
-    "validateUpsert": true
+    "validateUpsert": true,
+    "strictObjectIDCoercion": true
   },
   "properties": {
     "name": {
       "type": "string",
       "required": true
     },
-    "objectId": {
+    "referenceId": {
       "type": "string",
       "required": true
     }

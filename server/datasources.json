@@ -2,5 +2,17 @@
   "db": {
     "name": "db",
     "connector": "memory"
+  },
+  "localMongo": {
+    "name": "localMongo",
+    "port": 27017,
+    "connector": "mongodb"
+  },
+  "localMySQL": {
+    "name": "localMySQL",
+    "port": 3306,
+    "connector": "mysql",
+    "user": "root",
+    "database": "mysql"
   }
 }

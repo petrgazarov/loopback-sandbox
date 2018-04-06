@@ -1,25 +1,60 @@
 'use strict';
 
+function createEvents(Event) {
+  console.log(`creating Event records in datasource ${Event.dataSource.name}`);
+
+  Event.findOrCreate({
+      where: { name: "event1" }
+    },
+    {
+      name: 'event1',
+      referenceId: '1234',
+  });
+
+  Event.findOrCreate({
+      where: { name: "event2" },
+    },
+    {
+      name: 'event2',
+      referenceId: '1234',
+  });
+
+  Event.findOrCreate({
+      where: { name: "event3" },
+    },
+    {
+      name: 'event3',
+      referenceId: '5a8c71cb3b800d0001f9b146',
+  });
+
+  Event.findOrCreate({
+      where: { name: "event4" },
+    },
+    {
+      name: 'event4',
+      referenceId: '5a8c71cb3b800d0001f9b146',
+  });
+}
+
 module.exports = function(server) {
-  // create dummy Event records to help demonstrate the bug
+  const Event = server.models.Event;
+  const datasourceName = Event.dataSource.name;
 
-  server.models.Event.create({
-    name: 'event1',
-    objectId: '1234',
-  });
+  if (datasourceName === 'localMongo') {
+    createEvents(Event);
+  } else if (datasourceName === 'localMySQL') {
+    // need to auto-migrate mySQL database
+    const localMySQL = server.dataSources.localMySQL;
 
-  server.models.Event.create({
-    name: 'event2',
-    objectId: '1234',
-  });
+    localMySQL.automigrate('Event', function(err) {
+      if (err) {
+        throw err;
+        return;
+      }
 
-  server.models.Event.create({
-    name: 'event3',
-    objectId: '4567',
-  });
+      console.log('\nMySQL: Auto-migrated table `Event`.');
 
-  server.models.Event.create({
-    name: 'event4',
-    objectId: '4567',
-  });
+      createEvents(Event);
+    });
+  }
 };
